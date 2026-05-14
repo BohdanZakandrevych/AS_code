@@ -96,7 +96,7 @@ public class CzlonekJury {
         if (!edycje.contains(edycja)) {
             edycje.add(edycja);
         }
-        if (!edycja.getPrzewodniczacy().contains(this)) {
+        if (edycja.getPrzewodniczacy() != this) {
             edycja.dodajPrzewodniczacego(this);
         }
     }

@@ -84,9 +84,8 @@ public class EdycjaKonkursu {
     private final List<Finalista> finalisci = new ArrayList<>();
 
     @NotNull
-    @Size(min = 2, max = 2)
     @Valid
-    private final List<CzlonekJury> przewodniczacy = new ArrayList<>();
+    private CzlonekJury przewodniczacy;
 
     @NotNull
     @Size(min = 1)
@@ -398,19 +397,19 @@ public class EdycjaKonkursu {
         finalisci.remove(finalista);
     }
 
-    public List<CzlonekJury> getPrzewodniczacy() {
-        return List.copyOf(przewodniczacy);
+    public CzlonekJury getPrzewodniczacy() {
+        return przewodniczacy;
     }
 
     public void dodajPrzewodniczacego(CzlonekJury czlonekJury) {
         ValidationUtils.requireNotNull(czlonekJury, "czlonekJury");
-        if (przewodniczacy.contains(czlonekJury)) {
+        if (przewodniczacy.equals(czlonekJury)) {
             return;
         }
-        if (przewodniczacy.size() >= 2) {
-            throw new IllegalStateException("przewodniczacy musi zawierać dokładnie 2 osoby");
-        }
-        przewodniczacy.add(czlonekJury);
+//        if (przewodniczacy.size() >= 2) {
+//            throw new IllegalStateException("przewodniczacy musi zawierać dokładnie 2 osoby");
+//        }
+        przewodniczacy = czlonekJury;
         if (!czlonekJury.getEdycje().contains(this)) {
             czlonekJury.dodajEdycje(this);
         }
