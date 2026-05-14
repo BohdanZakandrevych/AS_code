@@ -3,6 +3,7 @@ package pl.as.domain;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class Projekt {
     @Valid
     private OcenaIndywidualna ocenaIndywidualna;
 
-    @Valid
+    @NotNull
     private Assesor assesorWiodacy;
 
     @NotNull
@@ -82,7 +83,8 @@ public class Projekt {
 
     @NotNull
     @Valid
-    private final List<RaportNaDrugieSpotkanie> raportyNaDrugieSpotkanie = new ArrayList<>();
+    @Size(min = 2)
+    private final List<RaportNaDrugieSpotkanie> ocenyIndywidualne = new ArrayList<>();
 
     public Projekt(
             String nazwa,
@@ -359,6 +361,15 @@ public class Projekt {
 
     public void setAssesorWiodacy(Assesor assesorWiodacy) {
         Assesor nowy = ValidationUtils.requireNotNull(assesorWiodacy, "assesorWiodacy");
+
+        // Walidacja ograniczenia {subset} z diagramu UML
+        boolean sporzadzilRaport = ocenyIndywidualne.stream()
+                .anyMatch(raport -> raport.getAssesor().equals(nowy));
+
+        if (!sporzadzilRaport) {
+            throw new IllegalArgumentException("Asesor wiodący musi należeć do grupy asesorów sporządzających raport (subset).");
+        }
+
         if (this.assesorWiodacy == nowy) {
             return;
         }
@@ -392,25 +403,25 @@ public class Projekt {
         raportyNaPierwszeSpotkanie.remove(raport);
     }
 
-    public List<RaportNaDrugieSpotkanie> getRaportyNaDrugieSpotkanie() {
-        return List.copyOf(raportyNaDrugieSpotkanie);
+    public List<RaportNaDrugieSpotkanie> getOcenyIndywidualne() {
+        return List.copyOf(ocenyIndywidualne);
     }
 
-    public void dodajRaportNaDrugieSpotkanie(RaportNaDrugieSpotkanie raport) {
+    public void dodajOceneIndywidualna(RaportNaDrugieSpotkanie raport) {
         ValidationUtils.requireNotNull(raport, "raport");
         if (raport.getProjekt() != this) {
             raport.setProjekt(this);
         }
-        if (!raportyNaDrugieSpotkanie.contains(raport)) {
-            raportyNaDrugieSpotkanie.add(raport);
+        if (!ocenyIndywidualne.contains(raport)) {
+            ocenyIndywidualne.add(raport);
         }
     }
 
-    void usunRaportNaDrugieSpotkanie(RaportNaDrugieSpotkanie raport) {
+    void usunOceneIndywidualna(RaportNaDrugieSpotkanie raport) {
         if (raport == null) {
             return;
         }
-        raportyNaDrugieSpotkanie.remove(raport);
+        ocenyIndywidualne.remove(raport);
     }
 
 }

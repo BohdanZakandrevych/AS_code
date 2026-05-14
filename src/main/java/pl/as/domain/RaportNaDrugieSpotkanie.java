@@ -36,10 +36,10 @@ public class RaportNaDrugieSpotkanie {
             return;
         }
         if (this.projekt != null) {
-            this.projekt.usunRaportNaDrugieSpotkanie(this);
+            this.projekt.usunOceneIndywidualna(this);
         }
         this.projekt = ValidationUtils.requireNotNull(projekt, "projekt");
-        projekt.dodajRaportNaDrugieSpotkanie(this);
+        projekt.dodajOceneIndywidualna(this);
     }
 
     public Assesor getAssesor() {

@@ -2,7 +2,6 @@ package pl.as.domain;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
@@ -15,16 +14,10 @@ public class Assesor {
     @NotBlank
     private String nazwisko;
 
-    @NotNull
-    @Size(min = 2)
-    @Valid
-    private final List<OcenaIndywidualna> ocenyIndywidualne = new ArrayList<>();
-
-    @NotNull
     @Valid
     private final List<Projekt> projektyWiodace = new ArrayList<>();
 
-    @NotNull
+    @Size(min = 1)
     @Valid
     private final List<RaportNaDrugieSpotkanie> raportyNaDrugieSpotkanie = new ArrayList<>();
 
@@ -49,35 +42,17 @@ public class Assesor {
         this.nazwisko = ValidationUtils.requireNotBlank(nazwisko, "nazwisko");
     }
 
-    public List<OcenaIndywidualna> getOcenyIndywidualne() {
-        return List.copyOf(ocenyIndywidualne);
-    }
-
-    public void dodajOceneIndywidualna(OcenaIndywidualna ocena) {
-        ValidationUtils.requireNotNull(ocena, "ocena");
-        if (!ocenyIndywidualne.contains(ocena)) {
-            ocenyIndywidualne.add(ocena);
-        }
-    }
-
-    void usunOceneIndywidualna(OcenaIndywidualna ocena) {
-        if (ocena == null) {
-            return;
-        }
-        ocenyIndywidualne.remove(ocena);
-    }
-
     public List<Projekt> getProjektyWiodace() {
         return List.copyOf(projektyWiodace);
     }
 
     public void dodajProjektWiodacy(Projekt projekt) {
         ValidationUtils.requireNotNull(projekt, "projekt");
-        if (!projektyWiodace.contains(projekt)) {
-            projektyWiodace.add(projekt);
-        }
         if (projekt.getAssesorWiodacy() != this) {
             projekt.setAssesorWiodacy(this);
+        }
+        if (!projektyWiodace.contains(projekt)) {
+            projektyWiodace.add(projekt);
         }
     }
 
