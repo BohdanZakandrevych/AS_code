@@ -31,6 +31,11 @@ public class CzlonekJury {
     private final List<EdycjaKonkursu> edycje = new ArrayList<>();
 
     @NotNull
+    @Size(min = 1)
+    @Valid
+    private final List<EdycjaKonkursu> edycjeCzlonkowskie = new ArrayList<>();
+
+    @NotNull
     @Valid
     private final List<RaportNaPierwszeSpotkanie> raportyNaPierwszeSpotkanie = new ArrayList<>();
 
@@ -94,6 +99,36 @@ public class CzlonekJury {
         if (!edycja.getPrzewodniczacy().contains(this)) {
             edycja.dodajPrzewodniczacego(this);
         }
+    }
+
+    public List<EdycjaKonkursu> getEdycjeCzlonkowskie() {
+        return List.copyOf(edycjeCzlonkowskie);
+    }
+
+    public void dodajEdycjeCzlonkowska(EdycjaKonkursu edycja) {
+        ValidationUtils.requireNotNull(edycja, "edycja");
+        if (!edycjeCzlonkowskie.contains(edycja)) {
+            edycjeCzlonkowskie.add(edycja);
+        }
+        if (!edycja.getCzlonkowie().contains(this)) {
+            edycja.dodajCzlonka(this);
+        }
+    }
+
+    public void usunEdycjeCzlonkowska(EdycjaKonkursu edycja) {
+        if (edycja == null) {
+            return;
+        }
+        if (edycjeCzlonkowskie.remove(edycja)) {
+            edycja.usunCzlonkaWewn(this);
+        }
+    }
+
+    void usunEdycjeCzlonkowskaWewn(EdycjaKonkursu edycja) {
+        if (edycja == null) {
+            return;
+        }
+        edycjeCzlonkowskie.remove(edycja);
     }
 
     public List<RaportNaPierwszeSpotkanie> getRaportyNaPierwszeSpotkanie() {

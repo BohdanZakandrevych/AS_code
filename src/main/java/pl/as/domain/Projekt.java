@@ -71,11 +71,12 @@ public class Projekt {
     @NotNull
     private InicjatorProjektu inicjatorProjektu;
 
+    @NotNull
     @Valid
     private OcenaIndywidualna ocenaIndywidualna;
 
     @NotNull
-    private Assesor assesorWiodacy;
+    private Asesor asesorWiodacy;
 
     @NotNull
     @Valid
@@ -355,28 +356,28 @@ public class Projekt {
         }
     }
 
-    public Assesor getAssesorWiodacy() {
-        return assesorWiodacy;
+    public Asesor getAsesorWiodacy() {
+        return asesorWiodacy;
     }
 
-    public void setAssesorWiodacy(Assesor assesorWiodacy) {
-        Assesor nowy = ValidationUtils.requireNotNull(assesorWiodacy, "assesorWiodacy");
+    public void setAsesorWiodacy(Asesor asesorWiodacy) {
+        Asesor nowy = ValidationUtils.requireNotNull(asesorWiodacy, "asesorWiodacy");
 
         // Walidacja ograniczenia {subset} z diagramu UML
         boolean sporzadzilRaport = ocenyIndywidualne.stream()
-                .anyMatch(raport -> raport.getAssesor().equals(nowy));
+                .anyMatch(raport -> raport.getAsesor().equals(nowy));
 
         if (!sporzadzilRaport) {
             throw new IllegalArgumentException("Asesor wiodący musi należeć do grupy asesorów sporządzających raport (subset).");
         }
 
-        if (this.assesorWiodacy == nowy) {
+        if (this.asesorWiodacy == nowy) {
             return;
         }
-        if (this.assesorWiodacy != null) {
-            this.assesorWiodacy.usunProjektWiodacy(this);
+        if (this.asesorWiodacy != null) {
+            this.asesorWiodacy.usunProjektWiodacy(this);
         }
-        this.assesorWiodacy = nowy;
+        this.asesorWiodacy = nowy;
         if (!nowy.getProjektyWiodace().contains(this)) {
             nowy.dodajProjektWiodacy(this);
         }

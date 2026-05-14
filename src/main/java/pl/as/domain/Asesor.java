@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Assesor {
+public class Asesor {
     @NotBlank
     private String imie;
 
@@ -21,7 +21,7 @@ public class Assesor {
     @Valid
     private final List<RaportNaDrugieSpotkanie> raportyNaDrugieSpotkanie = new ArrayList<>();
 
-    public Assesor(String imie, String nazwisko) {
+    public Asesor(String imie, String nazwisko) {
         setImie(imie);
         setNazwisko(nazwisko);
     }
@@ -48,8 +48,8 @@ public class Assesor {
 
     public void dodajProjektWiodacy(Projekt projekt) {
         ValidationUtils.requireNotNull(projekt, "projekt");
-        if (projekt.getAssesorWiodacy() != this) {
-            projekt.setAssesorWiodacy(this);
+        if (projekt.getAsesorWiodacy() != this) {
+            projekt.setAsesorWiodacy(this);
         }
         if (!projektyWiodace.contains(projekt)) {
             projektyWiodace.add(projekt);
@@ -72,8 +72,8 @@ public class Assesor {
         if (!raportyNaDrugieSpotkanie.contains(raport)) {
             raportyNaDrugieSpotkanie.add(raport);
         }
-        if (raport.getAssesor() != this) {
-            raport.setAssesor(this);
+        if (raport.getAsesor() != this) {
+            raport.setAsesor(this);
         }
     }
 

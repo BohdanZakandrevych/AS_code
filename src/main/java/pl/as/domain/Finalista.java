@@ -30,6 +30,7 @@ public class Finalista extends Projekt {
     @NotBlank
     private String kodCertyfikatu;
 
+    @NotNull
     @Valid
     private BiuroNagrody biuroNagrody;
 

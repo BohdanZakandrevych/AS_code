@@ -11,12 +11,12 @@ public class RaportNaDrugieSpotkanie {
     private Projekt projekt;
 
     @NotNull
-    private Assesor assesor;
+    private Asesor asesor;
 
-    public RaportNaDrugieSpotkanie(String tresc, Assesor assesor, Projekt projekt) {
+    public RaportNaDrugieSpotkanie(String tresc, Asesor asesor, Projekt projekt) {
         setTresc(tresc);
         setProjekt(ValidationUtils.requireNotNull(projekt, "projekt"));
-        setAssesor(ValidationUtils.requireNotNull(assesor, "assesor"));
+        setAsesor(ValidationUtils.requireNotNull(asesor, "asesor"));
     }
 
     public String getTresc() {
@@ -42,18 +42,18 @@ public class RaportNaDrugieSpotkanie {
         projekt.dodajOceneIndywidualna(this);
     }
 
-    public Assesor getAssesor() {
-        return assesor;
+    public Asesor getAsesor() {
+        return asesor;
     }
 
-    void setAssesor(Assesor assesor) {
-        if (this.assesor == assesor) {
+    void setAsesor(Asesor asesor) {
+        if (this.asesor == asesor) {
             return;
         }
-        if (this.assesor != null) {
-            this.assesor.usunRaportNaDrugieSpotkanie(this);
+        if (this.asesor != null) {
+            this.asesor.usunRaportNaDrugieSpotkanie(this);
         }
-        this.assesor = ValidationUtils.requireNotNull(assesor, "assesor");
-        assesor.dodajRaportNaDrugieSpotkanie(this);
+        this.asesor = ValidationUtils.requireNotNull(asesor, "asesor");
+        asesor.dodajRaportNaDrugieSpotkanie(this);
     }
 }

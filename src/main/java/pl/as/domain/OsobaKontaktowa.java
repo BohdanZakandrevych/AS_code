@@ -81,6 +81,14 @@ public class OsobaKontaktowa {
         return adres;
     }
 
+    public Adres getSkutecznyAdres(Projekt projekt) {
+        if (adres != null) {
+            return adres;
+        }
+        Projekt docelowyProjekt = ValidationUtils.requireNotNull(projekt, "projekt");
+        return docelowyProjekt.getAplikant().getAdres();
+    }
+
     public void setAdres(Adres adres) {
         this.adres = adres;
     }

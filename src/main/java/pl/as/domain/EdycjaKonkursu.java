@@ -88,6 +88,11 @@ public class EdycjaKonkursu {
     @Valid
     private final List<CzlonekJury> przewodniczacy = new ArrayList<>();
 
+    @NotNull
+    @Size(min = 1)
+    @Valid
+    private final List<CzlonekJury> czlonkowie = new ArrayList<>();
+
     public static EdycjaKonkursu utworzKolejnaEdycje(
             EdycjaKonkursu poprzedniaEdycja,
             Integer rok,
@@ -409,5 +414,35 @@ public class EdycjaKonkursu {
         if (!czlonekJury.getEdycje().contains(this)) {
             czlonekJury.dodajEdycje(this);
         }
+    }
+
+    public List<CzlonekJury> getCzlonkowie() {
+        return List.copyOf(czlonkowie);
+    }
+
+    public void dodajCzlonka(CzlonekJury czlonekJury) {
+        ValidationUtils.requireNotNull(czlonekJury, "czlonekJury");
+        if (!czlonkowie.contains(czlonekJury)) {
+            czlonkowie.add(czlonekJury);
+        }
+        if (!czlonekJury.getEdycjeCzlonkowskie().contains(this)) {
+            czlonekJury.dodajEdycjeCzlonkowska(this);
+        }
+    }
+
+    public void usunCzlonka(CzlonekJury czlonekJury) {
+        if (czlonekJury == null) {
+            return;
+        }
+        if (czlonkowie.remove(czlonekJury)) {
+            czlonekJury.usunEdycjeCzlonkowskaWewn(this);
+        }
+    }
+
+    void usunCzlonkaWewn(CzlonekJury czlonekJury) {
+        if (czlonekJury == null) {
+            return;
+        }
+        czlonkowie.remove(czlonekJury);
     }
 }
